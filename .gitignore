@@ -1,0 +1,15 @@
+# Local deployment copies, historical notes, and private run data.
+/.local/
+
+# Credentials and machine-specific settings.
+.env
+.env.*
+!.env.example
+
+# Operating system and editor temporary files.
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
