@@ -1,12 +1,14 @@
-# 仓库开发约定
+# Repository Development Guidelines
 
-本仓库用于开发和维护 Markdown Loop 模板。以下约定适用于本项目的修改工作。
+[Simplified Chinese](docs/zh-CN/AGENTS.md)
 
-- 模板放 templates，使用说明放 docs；每个模板须能独立复制使用，不依赖仓库外层文件。
-- LOOP.md 保留 LOOP CONTRACT（Goal、Boundary、SOP）和 STATE + LOG（State、Logs）。
-- 只实现必要流程，不引入运行程序、调度代码或额外配置体系。
-- 配置只留必要项，状态按具体 Loop 定义；CONFIG、STATE 只存数据，初始状态与日志留空。
-- Starter 保持通用占位，不预设业务流程或状态字段。
-- 修改后检查链接、JSON 和文档一致性。
+This repository develops and maintains Markdown Loop templates. The following guidelines apply to changes in this project.
 
-.local 是本地资料，默认不读、不引用、不提交。
+- Keep templates in templates and usage documentation in docs. Each template must be independently copyable and usable without relying on files outside its directory.
+- Keep LOOP CONTRACT (Goal, Boundary, SOP) and STATE + LOG (State, Logs) in LOOP.md.
+- Implement only the necessary workflow. Do not introduce runtime programs, scheduling code, or additional configuration systems.
+- Keep only essential configuration options and define state for each specific Loop. CONFIG and STATE contain data only; leave initial state and logs empty.
+- Keep Starter as a generic placeholder without predefined business workflows or state fields.
+- After making changes, check links, JSON, and documentation consistency.
+
+.local contains local materials. Do not read, reference, or commit it by default.

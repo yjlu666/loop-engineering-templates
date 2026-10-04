@@ -1,20 +1,22 @@
-# 贡献指南
+# Contributing
 
-欢迎新增 Loop 模板、改进现有流程，或修正文档。
+[Simplified Chinese](docs/zh-CN/CONTRIBUTING.md)
 
-## 如何贡献
+Contributions of new Loop templates, improvements to existing workflows, and documentation fixes are welcome.
 
-1. 新增模板：复制 [Starter](templates/starter/LOOP.md) 所在目录，按[编写指南](docs/template-authoring.md)填写内容。
-2. 修改模板：同步更新相关执行规则和使用说明。
-3. 提交 PR：说明解决了什么问题、做了哪些改动，以及如何验证。
+## How to Contribute
 
-## 模板约定
+1. Add a template: copy the directory containing [Starter](templates/starter/LOOP.md) and fill it in using the [authoring guide](docs/template-authoring.md).
+2. Update a template: keep the related execution rules and usage documentation in sync.
+3. Submit a PR: explain the problem, the changes, and how you verified them.
 
-- 沿用 Starter 的两模块、五字段结构，用 Markdown 定义流程。
-- Agent 执行内容放在 templates，用户使用与配置说明放在 docs；模板目录应能独立使用。
-- 先完成必要流程，配置只保留必要项，状态按具体 Loop 定义。
-- 提交通用模板，初始状态和日志留空；个人配置、凭证、缓存和运行记录留在本地。
+## Template Conventions
 
-提交前检查文档链接、JSON 格式，以及使用说明与模板是否一致。
+- Use Starter's structure of two sections and five fields, with the workflow defined in Markdown.
+- Keep agent execution content in templates and user-facing usage and configuration documentation in docs. Each template directory must be usable independently.
+- Implement the necessary workflow first, keep only essential configuration options, and define state for each specific Loop.
+- Submit reusable templates with empty initial state and logs. Keep personal configuration, credentials, caches, and run records locally.
 
-本项目及贡献内容采用 [MIT License](LICENSE)。
+Before submitting, check documentation links, JSON syntax, and consistency between the guides and templates.
+
+This project and its contributions are licensed under the [MIT License](LICENSE).

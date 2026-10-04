@@ -1,4 +1,4 @@
 ---
 name: requirements-document
-description: 在项目开发 Loop 执行需求文档生成环节时使用。
+description: Use for the requirements document generation stage of the Project Development Loop.
 ---

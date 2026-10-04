@@ -1,17 +1,17 @@
 ---
-name: 新模板请求
-about: 提议一个可复用的纯 Markdown Loop 实践模板
+name: Template request
+about: Propose a reusable Loop template written entirely in Markdown
 title: "[Template] "
 ---
 
-## 使用场景
+## Use Case
 
-你希望用这个模板处理什么工作？
+What work would you like this template to handle?
 
-## 期望结果
+## Expected Result
 
-希望它帮你完成什么？
+What would you like it to accomplish?
 
-## 参考（可选）
+## References (Optional)
 
-相关例子、链接或已有做法。
+Related examples, links, or existing practices.

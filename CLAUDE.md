@@ -1,3 +1,5 @@
-# 仓库开发约定
+# Repository Development Guidelines
 
-遵守 [AGENTS.md](AGENTS.md)。
+[Simplified Chinese](docs/zh-CN/CLAUDE.md)
+
+Follow [AGENTS.md](AGENTS.md).

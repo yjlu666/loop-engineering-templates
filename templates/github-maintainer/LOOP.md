@@ -4,28 +4,28 @@
 
 ### Goal
 
-处理本轮全部新增及待跟进的 Issue/PR，生成 1 份总结，并向指定会话发送 1 条汇总消息。
+Handle all new issues and PRs and those requiring follow-up in this round, produce one summary, and send one summary message to the specified chat.
 
 ### Boundary
 
-只处理 [CONFIG.md](CONFIG.md) 指定的仓库和通知目标，遵守 [POLICY.md](POLICY.md) 与仓库现有审批规则。不实现 Issue，不自动关闭条目，不改用户已有 checkout。每次执行一轮。reports/ 下的报告面向用户，Agent 不回读。
+Work only with the repositories and notification destination specified in [CONFIG.md](CONFIG.md). Follow [POLICY.md](POLICY.md) and the repositories' existing approval rules. Do not implement issues, automatically close items, or modify the user's existing checkout. Execute one round per invocation. Reports under reports/ are for the user; the agent must not read them back.
 
 ### SOP
 
-1. 读取配置、[STATE.md](STATE.md) 和 [TRACKING.md](TRACKING.md)；需要排查异常时再查 [LOGS.md](LOGS.md)，不读 reports/ 历史报告。
-2. 每个仓库分派一个 subagent 并发检查，给出仓库 URL 和独立工作目录的绝对路径；工具操作显式指定目录。不支持 subagent 时顺序执行。
-3. 通过 GitHub API 分页扫描 Issue/PR：没有游标时只处理最近 24 小时新增的条目，之后处理编号大于游标的条目。以 [TRACKING.md](TRACKING.md) 清单为跟进依据，逐条核对并继续处理尚未结束的条目；Issue 关闭、PR 关闭或合并后从清单移除。
-4. 优先读取 diff 和相关文件，需要完整源码时再 clone/fetch。源码放在系统用户缓存目录的 loop-engineering-templates/ 下，按仓库隔离；使用后更新缓存目录时间。PR 分析使用对应提交的临时 worktree，用完移除，clone 留待下轮复用。
-5. 等待所有仓库分析完成，主 Agent 按 POLICY 统一回复和合并。
-6. 主 Agent 将各仓库本次扫描到的最大编号写入 STATE；回收闲置超过 cache_ttl_days 的缓存，总容量超过 max_cache_gib 时优先回收最久未使用的缓存。
-7. 将本轮结果、条目链接和清单变化写入 reports/<时间>.md（供用户查看，Agent 不回读），并更新 TRACKING.md；主 Agent 通过 Computer Use 向指定会话发送一条全仓库汇总。
+1. Read the configuration, [STATE.md](STATE.md), and [TRACKING.md](TRACKING.md). Consult [LOGS.md](LOGS.md) only when troubleshooting; do not read historical reports under reports/.
+2. Assign one subagent per repository to inspect repositories concurrently, providing the repository URL and the absolute path to an isolated working directory. Specify the directory explicitly in tool calls. If subagents are unavailable, process repositories sequentially.
+3. Scan issues and PRs through the GitHub API with pagination. Without a cursor, process only items created in the last 24 hours; afterward, process items with numbers greater than the cursor. Use [TRACKING.md](TRACKING.md) as the basis for follow-up, checking and continuing work on each unresolved item. Remove an item from the list when its issue is closed or its PR is closed or merged.
+4. Read diffs and related files first; clone or fetch only when full source is needed. Store source under loop-engineering-templates/ in the system's user cache directory, separated by repository, and update the cache directory's timestamp after use. Analyze PRs in temporary worktrees at the corresponding commits. Remove worktrees after use and retain clones for later rounds.
+5. Wait for all repository analyses to finish. The main agent then handles replies and merges according to POLICY.
+6. The main agent saves the highest number scanned in each repository during this round in STATE. Reclaim caches idle longer than cache_ttl_days. If total size exceeds max_cache_gib, reclaim the least recently used caches first.
+7. Write the round's results, item links, and tracking-list changes to `reports/<timestamp>.md` for the user to read, without reading it back, and update TRACKING.md. The main agent sends one summary covering all repositories to the specified chat through Computer Use.
 
 ## STATE + LOG
 
 ### State
 
-[STATE.md](STATE.md) 只保存“仓库 → 最后扫描编号”的 JSON 映射。Issue 与 PR 共用编号；空仓库记为 0。[TRACKING.md](TRACKING.md) 保存未结束条目清单和每条的下轮动作，是跟进状态的唯一来源。
+[STATE.md](STATE.md) stores only a JSON mapping from repository to last scanned number. Issues and PRs share the same numbering sequence; record 0 for an empty repository. [TRACKING.md](TRACKING.md) stores unresolved items and each item's next-round action, and is the sole source of follow-up state.
 
 ### Logs
 
-[LOGS.md](LOGS.md) 只记录实际遇到的问题和解决办法。
+[LOGS.md](LOGS.md) records only problems actually encountered and their solutions.

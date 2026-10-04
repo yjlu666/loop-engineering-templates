@@ -1,11 +1,11 @@
-## 改动
+## Changes
 
-简述修改了什么。
+Briefly describe what changed.
 
-## 原因
+## Reason
 
-说明为什么修改；如有关联 Issue，可附链接。
+Explain why the changes are needed. Link any related issues.
 
-## 验证
+## Verification
 
-说明检查方式和结果。
+Describe the checks performed and their results.

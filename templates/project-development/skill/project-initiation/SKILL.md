@@ -1,4 +1,4 @@
 ---
 name: project-initiation
-description: 在项目开发 Loop 执行立项环节时使用。
+description: Use for the project initiation stage of the Project Development Loop.
 ---

@@ -1,17 +1,17 @@
 ---
-name: 缺陷反馈
-about: 报告模板或使用说明中的问题
+name: Bug report
+about: Report a problem with a template or its usage documentation
 title: "[Bug] "
 ---
 
-## 问题说明
+## Problem
 
-涉及哪个模板或文件？出现了什么问题？
+Which template or file is affected? What went wrong?
 
-## 预期结果
+## Expected Result
 
-你期望怎样的结果？
+What did you expect to happen?
 
-## 复现或示例
+## Reproduction or Example
 
-提供复现步骤，或一个能说明问题的简短例子。
+Provide steps to reproduce the problem or a short example that illustrates it.

@@ -1,17 +1,17 @@
 # Tracking
 
-Agent 维护的未结束条目清单（Issue/PR）。它是跟进状态的唯一来源。
+The agent-maintained list of unresolved issues and PRs. This is the sole source of follow-up state.
 
-## 待跟进条目
+## Items Requiring Follow-up
 
-| 仓库 | 编号 | 类型 | 标题 | 状态 | 下一步 |
+| Repository | Number | Type | Title | Status | Next Action |
 |---|---|---|---|---|---|
 
-## 维护规则
+## Maintenance Rules
 
-- 仓库写成 owner/repo；编号为 Issue 与 PR 共用的编号；类型为 Issue 或 PR。
-- 状态取值：新发现、已回复、等待作者、等待维护者、等待检查、待合并。
-- 下一步只写一句话，说明下轮对这条要做的动作。
-- 新发现且未结束的条目追加进表；Issue 关闭、PR 关闭或合并后从表中删除。
-- 每轮开始先与 GitHub 实际状态核对，删掉已结束的条目再继续跟进。
-- 表为空时，从 GitHub 上本 Loop 已参与且仍打开的条目重建。
+- Use owner/repo for the repository, the shared issue/PR number for the number, and Issue or PR for the type.
+- Status values: Newly discovered, Replied, Waiting for author, Waiting for maintainer, Waiting for checks, Ready to merge.
+- Keep the next action to one sentence describing what to do with the item in the next round.
+- Append newly discovered unresolved items. Remove items when their issue is closed or their PR is closed or merged.
+- At the start of each round, check the actual status on GitHub and remove resolved items before continuing follow-up.
+- If the table is empty, rebuild it from open GitHub items in which this Loop has already participated.

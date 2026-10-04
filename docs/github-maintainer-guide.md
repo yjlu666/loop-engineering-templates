@@ -1,29 +1,31 @@
-# GitHub Maintainer Loop 使用指南
+# GitHub Maintainer Loop Guide
 
-## 三步开始
+[Simplified Chinese](zh-CN/github-maintainer-guide.md)
 
-1. 复制 `templates/github-maintainer/` 整个目录到自己的工作位置。
-2. 在副本的 `CONFIG.md` 中填写仓库列表、通知应用和接收会话；缓存参数可保留默认值。
-3. 告诉本地 Agent：`读取 <实例目录>/LOOP.md 并执行一轮`。下次仍指定同一个文件，接续已有进度。
+## Get Started in Three Steps
 
-## 配置
+1. Copy the entire `templates/github-maintainer/` directory to your working location.
+2. Fill in the repository list, notification app, and recipient chat in your copy of `CONFIG.md`. You can keep the default cache settings.
+3. Tell your local agent: `Read <instance-directory>/LOOP.md and execute one round.` Use the same file next time to continue from the saved progress.
 
-| 字段 | 默认值 | 填写方式 |
+## Configuration
+
+| Field | Default | How to Fill It In |
 |---|---|---|
-| `repositories` | `[]` | 必填，填写一个或多个 GitHub 仓库 URL |
-| `notify_app` | `""` | 必填，填写本地通讯应用名称，如飞书或微信 |
-| `notify_chat` | `""` | 必填，填写接收总结的确切会话名称 |
-| `cache_ttl_days` | `7` | 源码缓存闲置天数，可不改 |
-| `max_cache_gib` | `20` | 所有仓库源码缓存的合计容量目标，单位 GiB，可不改 |
+| `repositories` | `[]` | Required. One or more GitHub repository URLs |
+| `notify_app` | `""` | Required. The name of a local messaging app, such as Feishu or WeChat |
+| `notify_chat` | `""` | Required. The exact name of the chat that receives the summary |
+| `cache_ttl_days` | `7` | The number of days a source cache can remain idle; the default can be kept |
+| `max_cache_gib` | `20` | The target total size of source caches across all repositories, in GiB; the default can be kept |
 
-首次只纳入最近 24 小时新增的 Issue/PR，之后增量发现并跟进已纳管项。Agent 自动识别仓库规则与缓存路径，保留现有审批，仅在检查与审查通过时合并小 PR；缓存默认闲置 7 天回收、总容量 20 GiB。
+The first run includes only issues and PRs created in the last 24 hours. Later runs discover new items incrementally and follow up on tracked items. The agent automatically identifies repository rules and cache paths, preserves existing approval requirements, and merges small PRs only after checks and reviews pass. By default, caches are reclaimed after 7 idle days, with a total size target of 20 GiB.
 
-## 跟进状态
+## Follow-up State
 
-`TRACKING.md` 是未结束 Issue/PR 的清单，Agent 每轮只读它和 `STATE.md` 来继续跟进，并按清单逐条更新状态与下一步。`reports/` 下的报告供你查看，Agent 不回读，避免历史报告污染上下文。升级已有实例时手动建立该文件即可，Agent 会在首轮从 GitHub 上仍打开且本 Loop 已参与的条目重建清单。
+`TRACKING.md` lists unresolved issues and PRs. The agent uses only this file and `STATE.md` to resume follow-up each round, updating each item's status and next action. Reports under `reports/` are for you to read; the agent does not read them back, keeping historical reports out of its context. When upgrading an existing instance, create this file manually. On its first round, the agent rebuilds the list from open GitHub items in which this Loop has already participated.
 
-主 Agent 按仓库分派 subagent 并发分析，为每个 subagent 指定绝对仓库路径；宿主支持工作目录选项时设置该目录，否则在工具调用中显式指定路径。不支持 subagent 时顺序执行。
+The main agent assigns a subagent to analyze each repository concurrently, providing an absolute repository path for each subagent. If the host supports a working-directory option, set it to that directory; otherwise, specify the path explicitly in tool calls. If subagents are unavailable, process repositories sequentially.
 
-所有仓库分析结束后，由主 Agent 统一处置，并仅通过 Computer Use 发送一条汇总。
+After all repository analyses finish, the main agent handles the resulting actions and sends a single combined summary using Computer Use only.
 
-需要定时运行时，在本地 Agent 中设置对同一个 `LOOP.md` 的调用。
+For scheduled runs, configure your local agent to invoke the same `LOOP.md`.

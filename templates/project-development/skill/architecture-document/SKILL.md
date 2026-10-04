@@ -1,4 +1,4 @@
 ---
 name: architecture-document
-description: 在项目开发 Loop 执行架构文档生成环节时使用。
+description: Use for the architecture document generation stage of the Project Development Loop.
 ---

@@ -1,4 +1,4 @@
 ---
 name: requirements-clarification
-description: 在项目开发 Loop 执行需求澄清环节时使用。
+description: Use for the requirements clarification stage of the Project Development Loop.
 ---

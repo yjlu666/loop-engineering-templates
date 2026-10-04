@@ -1,16 +1,16 @@
-# 处置规则
+# Handling Policy
 
-## Issue
+## Issues
 
-能直接回答则回复；需要补充信息则询问；需要修复或实现则礼貌回复，等待维护者本地处理。
+Reply when an issue can be answered directly. Ask for more information when needed. If a fix or implementation is required, reply politely and leave it for the maintainer to handle locally.
 
-## PR
+## PRs
 
-- 小 PR 默认不超过 5 个文件、增删合计不超过 200 行；安全、依赖、数据迁移、公共接口和发布流程等高风险改动交维护者。
-- 小 PR 的实现正确、非 Draft、无冲突，所需检查与现有人工审批全部通过后，先回复，再复核最新提交并使用已审查的 head SHA 合并。
-- 大 PR 即使检查通过也只回复，等待维护者判断。
-- 代码或检查有问题，回复具体位置、原因和证据；不绕过仓库规则。
+- By default, a small PR changes no more than 5 files and has no more than 200 added and deleted lines combined. Leave high-risk changes involving security, dependencies, data migrations, public interfaces, or release processes to the maintainer.
+- For a small PR, ensure the implementation is correct, the PR is not a draft, there are no conflicts, and all required checks and existing human approvals have passed. Reply first, then recheck the latest commit and merge using the reviewed head SHA.
+- For a large PR, reply and wait for the maintainer's decision even if checks pass.
+- If there are problems with the code or checks, reply with specific locations, reasons, and evidence. Do not bypass repository rules.
 
-## 回复
+## Replies
 
-使用作者的语言，参考已有讨论；没有新结论时不重复回复。
+Use the author's language and take the existing discussion into account. Do not repeat replies when there are no new findings.

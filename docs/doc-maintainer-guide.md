@@ -1,27 +1,29 @@
-# Doc Maintainer Loop 使用指南
+# Doc Maintainer Loop Guide
 
-## 三步开始
+[Simplified Chinese](zh-CN/doc-maintainer-guide.md)
 
-1. 复制 `templates/doc-maintainer/` 整个目录到自己的工作位置。
-2. 在副本的 `CONFIG.md` 中填写官方仓库、个人 fork 和需要维护的文档路径。
-3. 告诉本地 Agent：`读取 <实例目录>/LOOP.md 并执行一轮`。下次仍指定同一个文件，接续已有进度。
+## Get Started in Three Steps
 
-## 配置
+1. Copy the entire `templates/doc-maintainer/` directory to your working location.
+2. Fill in the upstream repository, your fork, and the documentation paths to maintain in your copy of `CONFIG.md`.
+3. Tell your local agent: `Read <instance-directory>/LOOP.md and execute one round.` Use the same file next time to continue from the saved progress.
 
-| 字段 | 默认值 | 填写方式 |
+## Configuration
+
+| Field | Default | How to Fill It In |
 |---|---|---|
-| `upstream_repo` | `""` | 必填，官方仓库 URL，扫描其已合并到主分支的 PR 并向它提交 PR |
-| `fork_repo` | `""` | 必填，个人 fork 的仓库 URL，用于推送文档更新分支 |
-| `base_branch` | `"main"` | 主分支名，可不改 |
-| `documents` | `[]` | 必填，官方仓库内的文档路径列表，如 `["README.md", "docs/api.md"]` |
+| `upstream_repo` | `""` | Required. The upstream repository URL; scan PRs merged into its base branch and submit PRs to it |
+| `fork_repo` | `""` | Required. Your fork's repository URL, used to push documentation update branches |
+| `base_branch` | `"main"` | The base branch name; the default can be kept |
+| `documents` | `[]` | Required. A list of documentation paths in the upstream repository, such as `["README.md", "docs/api.md"]` |
 
-## 执行方式
+## Execution
 
-首次运行（`STATE.md` 为空）只扫描最近 24 小时合入主分支的 PR；之后每轮从 `STATE.md` 记录的 `last_merged_pr` 之后继续，只处理编号更大的已合并 PR。Agent 把 PR 的代码变更与 `documents` 中每份文档逐项对比：
+The first run (when `STATE.md` is empty) scans only PRs merged into the base branch in the last 24 hours. Subsequent rounds continue after `last_merged_pr` in `STATE.md`, processing only merged PRs with higher numbers. The agent compares each PR's code changes against every document in `documents`:
 
-- 发现偏差：从官方仓库主分支最新提交建立 worktree 和分支，对文档做最小修改，推送到 `fork_repo`，向官方仓库提交 1 个 PR 且不合并。
-- 没有偏差：不建分支、不提 PR，只记录本轮结果。
+- If discrepancies are found: create a worktree and branch from the latest commit on the upstream base branch, make minimal documentation changes, push to `fork_repo`, and submit one PR to the upstream repository without merging it.
+- If no discrepancies are found: create no branch or PR; only record the round's results.
 
-每轮结果写入实例目录下的 `reports/<时间>.md`（供你查看，Agent 不回读），随后把本轮扫描到的最大 PR 编号写入 `STATE.md`。clone 缓存在系统用户缓存目录的 `loop-engineering-templates/` 下，worktree 用完即移除。
+Each round's results are written to `reports/<timestamp>.md` in the instance directory for you to read; the agent does not read these reports back. The highest PR number scanned in the round is then saved in `STATE.md`. Clones are cached under `loop-engineering-templates/` in the system's user cache directory, and worktrees are removed after use.
 
-需要定时运行时，在本地 Agent 中设置对同一个 `LOOP.md` 的调用。
+For scheduled runs, configure your local agent to invoke the same `LOOP.md`.
