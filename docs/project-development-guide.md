@@ -63,18 +63,18 @@ Additional documents need an explicit user request, a project requirement, or a 
 
 ## Decomposition and Separate Executions
 
-The stage skills own decomposition, document placement, and follow-up prompts within the document-retention boundaries in `LOOP.md`. `LOOP.md` also handles stage execution, delegation, result routing, and the iteration limit.
+The stage skills own decomposition and document placement. The main agent follows `LOOP.md` to include the next child's prompt in its final response after completing a child.
 
-1. **Project initiation:** Write the project-level `project-brief.md`, including an ordered breakdown into major requirements, their scope, and dependencies. Continue with only the first major requirement. For every later major requirement, present a separate ready-to-use prompt in the conversation starting at `requirements-clarification`. A project with one coherent requirement need not be artificially split.
-2. **Requirements documentation:** If the selected major requirement is too large and meaningfully divisible, retain its overall scope and child index in the parent `requirements.md` and generate a requirements document for every child. Continue with only the first child. Present one prompt per remaining child in the conversation. Choose `architecture-document` or `technical-design` according to the user's selection and CONFIG; if both are disabled, use the next enabled stage. An architecture document is not a prerequisite for technical design. Order work by dependencies and state concrete prerequisites in each prompt.
+1. **Project initiation:** Write the project-level `project-brief.md`, including an ordered breakdown into major requirements, their scope, and dependencies. Continue with only the first major requirement. A project with one coherent requirement need not be artificially split.
+2. **Requirements documentation:** If the selected major requirement is too large and meaningfully divisible, retain its overall scope and child index in the parent `requirements.md` and generate a requirements document for every child. Continue with only the first child. Order the children by dependencies.
 3. **Architecture (optional):** When enabled and included in this execution, create, update, or reference the whole major requirement's `architecture.md`, even in a child execution. Preserve shared contracts and distinguish planned sibling behavior from implemented behavior.
 4. **Technical design and later stages:** Work only on the selected child, or the major requirement if unsplit, including necessary shared changes and regression checks. This also applies to project-specific test and production deployment procedures.
 
-A new Loop means a separate execution or conversation using the same `LOOP.md` and documents, not a copied template or an automatically started sibling. Each generated prompt must contain actual absolute paths, the selected scope, its dependencies, and a named start stage. The skill files provide prompt patterns; fill them in separately for every remaining item. Provide the prompts only in the conversation, including the final or early-stop handoff. Do not write them into the project brief, requirements documents, or other project files.
+A new Loop means a separate execution or conversation using the same `LOOP.md` and documents, not a copied template or an automatically started sibling. Each generated prompt must contain actual absolute paths, the selected scope, its dependencies, and a named start stage. After completing a child, read the child order in the parent `requirements.md` and end the final response with the next child's complete, copyable prompt, even if this execution skipped requirements documentation or the prompt appeared earlier. Keep prompts only in the conversation. Do not write them into the project brief, requirements documents, or other project files.
 
 An explicit start stage skips earlier stages for this execution without changing CONFIG or marking them passed. The start stage must be enabled and required inputs available; otherwise report the blocker. Subsequent enabled stages run in their configured order. When architecture documentation is absent, technical design uses requirements and project context directly, recording necessary decisions in the technical design without requiring an architecture-stage restart. Verify dependency completion from actual project evidence instead of assuming another Loop finished it.
 
-Completing the selected child does not complete its parent requirement or the whole project. Report the completed scope and remaining execution prompts explicitly. Project documents retain scope and dependencies; follow-up execution prompts stay in the conversation.
+For children A → B → C: completing A ends with B's prompt; completing B in a new conversation ends with C's prompt; completing C reports the whole major requirement complete and stops. Do not hand off to another major requirement.
 
 ## Configuration
 
@@ -96,7 +96,7 @@ Code review requires a fresh subagent that did not implement the changes. With `
 
 ## Returning to Earlier Stages and Stopping
 
-- After a stage passes, proceed to the next enabled stage. This execution is complete only when its selected scope is fulfilled and all applicable enabled stages from its start stage onward have passed. Remaining major requirements or children are handed off to separate executions.
+- After a stage passes, proceed to the next enabled stage. This execution is complete only when its selected scope is fulfilled and all applicable enabled stages from its start stage onward have passed. Give the next child's prompt at the end; after the last child, report the major requirement complete and stop.
 - If a stage after code development requires code changes, return to code development. After fixing the code, rerun all subsequent enabled stages in order. If code development is disabled, report the issue to the user and wait for action.
 - Handle issues that do not require code changes within the current stage. If they cannot be resolved, report them to the user and wait.
 - An iteration is counted only when a stage after code development returns to code development for a code fix. If the `max_iterations` limit is reached and not all stages have passed, stop and report the stages that have not passed, the specific issues, and the attempted remedies. Do not claim completion.
